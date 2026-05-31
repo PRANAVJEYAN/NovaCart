@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { FiHome, FiShoppingBag, FiShoppingCart, FiHeart } from 'react-icons/fi'
 import { logout } from '../store/slices/authSlice'
 import { clearCart } from '../store/slices/cartSlice'
 import { clearWishlist } from '../store/slices/wishlistSlice'
@@ -13,20 +14,21 @@ export default function Layout({ children }) {
   const { items } = useSelector((state) => state.cart)
 
   const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'Shop', path: '/products' },
+    { name: 'Home', path: '/', icon: FiHome },
+    { name: 'Shop', path: '/products', icon: FiShoppingBag },
+    { name: 'Cart', path: '/cart', icon: FiShoppingCart },
   ]
+  const wishlistNavItem = { name: 'Wishlist', path: '/wishlist', icon: FiHeart }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50">
       <header className="border-b border-slate-800 bg-slate-950/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
           <Link to="/" className="text-xl font-bold">NovaCart</Link>
-          <nav className="hidden md:flex gap-6 text-sm text-slate-300">
+          <nav className="hidden lg:flex gap-6 text-sm text-slate-300">
             {navItems.map((item) => (
               <Link key={item.path} to={item.path} className={location.pathname === item.path ? 'text-white' : ''}>{item.name}</Link>
             ))}
-            <Link to="/cart" className={location.pathname === '/cart' ? 'text-white' : ''}>Cart</Link>
             {user && <Link to="/wishlist" className={location.pathname === '/wishlist' ? 'text-white' : ''}>Wishlist</Link>}
           </nav>
           <div className="flex items-center gap-3">
@@ -84,7 +86,25 @@ export default function Layout({ children }) {
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
+      <main className="mx-auto max-w-7xl px-4 py-6 pb-24">{children}</main>
+      <nav className="lg:hidden fixed inset-x-0 bottom-0 z-50 border-t border-slate-800 bg-slate-950/95 backdrop-blur px-4 py-2">
+        <div className="mx-auto flex max-w-7xl items-center justify-between text-xs text-slate-300">
+          {[...navItems, ...(user ? [wishlistNavItem] : [])].map((item) => {
+            const isActive = location.pathname === item.path
+            const Icon = item.icon
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex flex-col items-center gap-1 rounded-xl px-3 py-2 transition ${isActive ? 'text-white bg-slate-900' : 'hover:text-white hover:bg-slate-900/70'}`}
+              >
+                <Icon className="text-lg" />
+                <span>{item.name}</span>
+              </Link>
+            )
+          })}
+        </div>
+      </nav>
       <footer className="border-t border-slate-800 py-6 text-center text-sm text-slate-400">© 2026 NovaCart</footer>
     </div>
   )
