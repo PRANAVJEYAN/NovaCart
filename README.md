@@ -4,10 +4,8 @@ A modern, responsive E-Commerce Platform built with **React JS + Vite**, featuri
 
 ## 🚀 Live Demo
 
-Add your deployed URL here:
-
 ```text
-[NovaCart](https://nova-cart-client.vercel.app/)
+https://nova-cart-client.vercel.app
 ```
 
 ## 📂 GitHub Repository
@@ -309,7 +307,7 @@ https://github.com/PRANAVJEYAN
 LinkedIn:
 
 ```text
-[Add your LinkedIn profile URL](https://www.linkedin.com/in/pranav-jeyan/)
+https://www.linkedin.com/in/pranav-jeyan/
 ```
 
 ---
